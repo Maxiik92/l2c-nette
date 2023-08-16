@@ -4,48 +4,38 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\User\Sign\In\FormFactory;
 use Nette;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\Presenter;
 
 
-final class SignPresenter extends Nette\Application\UI\Presenter
+final class SignPresenter extends Presenter
 {
-	/**
-	 * Sign-in form factory.
-	 */
-	protected function createComponentSignInForm(): Form
+	private FormFactory $userSignInFormFactory;
+	private string $storeRequestId = '';
+
+	public function actionIn(string $storeReqId = '')
 	{
-		$form = new Form;
-		$form->addText('username', 'Username:')
-			->setRequired('Please enter your username.');
-
-		$form->addPassword('password', 'Password:')
-			->setRequired('Please enter your password.');
-
-		$form->addSubmit('send', 'Sign in');
-
-		// call method signInFormSucceeded() on success
-		$form->onSuccess[] = [$this, 'signInFormSucceeded'];
-		return $form;
+		$this->storeRequestId = $storeReqId;
 	}
-
-
-	public function signInFormSucceeded(Form $form, \stdClass $data): void
-	{
-		try {
-			$this->getUser()->login($data->username, $data->password);
-			$this->redirect('Homepage:');
-
-		} catch (Nette\Security\AuthenticationException $e) {
-			$form->addError('Incorrect username or password.');
-		}
-	}
-
 
 	public function actionOut(): void
 	{
-		$this->getUser()->logout();
-		$this->flashMessage('You have been signed out.');
+		$this->flashMessage('Login Successfull', 'success');
+		$this->redirect('Homepage:');
+	}
+
+	public function createComponentSignInForm(): Form
+	{
+		$form = $this->userSignInFormFactory->create();
+		$form->onSuccess[] = [$this, 'onSignInFormSuccess'];
+		return $form;
+	}
+
+	public function onSignInFormSuccess()
+	{
+		$this->flashMessage('Login Successfull', 'success');
 		$this->redirect('Homepage:');
 	}
 }
