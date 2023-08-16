@@ -12,14 +12,8 @@ use Nette\Application\UI\Form;
 
 final class PostPresenter extends Nette\Application\UI\Presenter
 {
-	private PostModel $postModel;
-	private CommentModel $commentModel;
-
-
-	public function __construct(PostModel $postModel, CommentModel $commentModel)
+	public function __construct(private PostModel $postModel, private CommentModel $commentModel)
 	{
-		$this->postModel = $postModel;
-		$this->commentModel = $commentModel;
 	}
 
 
@@ -52,7 +46,8 @@ final class PostPresenter extends Nette\Application\UI\Presenter
 		return $form;
 	}
 
-	public function createComponentPostForm():Form {
+	public function createComponentPostForm(): Form
+	{
 		$form = new Form;
 		$form->addText('title', 'Title:')
 			->setRequired();

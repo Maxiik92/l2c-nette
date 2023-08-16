@@ -17,22 +17,20 @@ final class PostModel extends BaseModel
 {
 	use Nette\SmartObject;
 
-	protected Explorer $database;
-	private TemplateFactory $templateFactory;
-	private LinkGenerator $linkGenerator;
-
-
-	public function __construct( Explorer $database,TemplateFactory $templateFactory, LinkGenerator $linkGenerator)
+	public function __construct(
+		private Explorer $database,
+		private TemplateFactory $templateFactory,
+		private LinkGenerator $linkGenerator
+	)
 	{
 		parent::__construct($database);
-		$this->linkGenerator = $linkGenerator;
-		$this->templateFactory = $templateFactory;
 	}
 
-	public function getTableName():string{
+	public function getTableName(): string
+	{
 		return 'post';
 	}
-	public function getPublicArticles(int $limit=null)
+	public function getPublicArticles(int $limit = null)
 	{
 		return $this->getTable()
 			->where('created_at < ', new \DateTime)
@@ -40,7 +38,8 @@ final class PostModel extends BaseModel
 			->limit($limit);
 	}
 
-	public function insert(array $values): ActiveRow {
+	public function insert(array $values): ActiveRow
+	{
 		$retval = parent::insert($values);
 
 		//mail send 
@@ -48,7 +47,7 @@ final class PostModel extends BaseModel
 		// if(Debugger::$productionMode){
 		// 	$latte = $this->templateFactory->createTemplate();
 		// 	$latte->getLatte()->addProvider('uiControl',$this->linkGenerator);
-			
+
 		// 	$message = new Message();
 		// 	$message->setFrom('default@l2c.sk');
 		// 	$message->addTo('tomas.max@activenet.sk');

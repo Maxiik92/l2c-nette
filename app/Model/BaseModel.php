@@ -13,15 +13,14 @@ abstract class BaseModel
 {
 	use Nette\SmartObject;
 
-	protected Explorer $database;
-
-
-	public function __construct( Explorer $database)
+	public function __construct(
+		private Explorer $database
+		)
 	{
-		$this->database = $database;
+
 	}
 
-	public abstract function getTableName():string;
+	public abstract function getTableName(): string;
 
 	public function getTable()
 	{
@@ -34,7 +33,8 @@ abstract class BaseModel
 			->get($id);
 	}
 
-	public function update(string $id, array $data){
+	public function update(string $id, array $data)
+	{
 		$numId = intval($id);
 		$item = $this->getById($numId);
 		$item->update($data);

@@ -10,12 +10,9 @@ use Nette;
 
 final class HomepagePresenter extends Nette\Application\UI\Presenter
 {
-	private PostModel $postModel;
 
-
-	public function __construct(PostModel $postModel)
+	public function __construct(private PostModel $postModel)
 	{
-		$this->postModel = $postModel;
 	}
 
 

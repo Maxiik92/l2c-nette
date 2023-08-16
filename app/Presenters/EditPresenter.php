@@ -13,12 +13,9 @@ final class EditPresenter extends Nette\Application\UI\Presenter
 {
 	private Nette\Database\Explorer $database;
 
-	private PostModel $postModel;
-
-
-	public function __construct(PostModel $postModel)
+	public function __construct(private PostModel $postModel)
 	{
-		$this->postModel = $postModel;
+
 	}
 
 
