@@ -1,0 +1,2 @@
+INSERT INTO `user` (`name`, `surname`, `email`, `password`, `last_login_date`, `register_date`)
+VALUES ('admin', 'admin', 'tomas.max@activenet.sk', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8', NULL, NULL);

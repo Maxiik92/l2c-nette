@@ -6,6 +6,6 @@ SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 INSERT INTO `user` (`id`, `name`, `surname`, `email`, `password`, `last_login_date`, `register_date`) VALUES
-(NULL,	'a',	'b',	'test@test.com',	'',	NULL,	NULL);
+(1,	'a',	'b',	'b@test.com',	NULL,	NULL,	NULL);
 
--- 2023-08-16 09:55:40
+-- 2023-08-16 10:38:04
