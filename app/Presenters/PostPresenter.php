@@ -6,15 +6,16 @@ namespace App\Presenters;
 
 use App\Model\CommentModel;
 use App\Model\PostModel;
-use Nette;
+use App\Presenters\BasePresenter;
 use Nette\Application\UI\Form;
 
 
-final class PostPresenter extends Nette\Application\UI\Presenter
+final class PostPresenter extends BasePresenter
 {
-	public function __construct(private PostModel $postModel, private CommentModel $commentModel)
-	{
-	}
+	public function __construct(
+		private PostModel $postModel,
+		private CommentModel $commentModel
+	) {}
 
 
 	public function renderShow(int $postId): void

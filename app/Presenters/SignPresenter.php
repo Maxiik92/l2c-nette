@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use App\Components\User\Sign\In\ControlFactory;
-use Nette\Application\UI\Control;
-use Nette\Application\UI\Presenter;
+use App\Components;
+use App\Presenters\BasePresenter;
 
 
-final class SignPresenter extends Presenter
+final class SignPresenter extends BasePresenter
 {
-	private ControlFactory $userSignInControlFactory;
-
-	private string $storeRequestId = '';
-
+	use Components\User\Sign\In\PresenterTrait;
 	public function actionIn(string $storeReqId = '')
 	{
 		$this->storeRequestId = $storeReqId;
@@ -25,16 +21,5 @@ final class SignPresenter extends Presenter
 		$this->user->logout(true);
 		$this->flashMessage('Logout Successfull', 'success');
 		$this->redirect('Homepage:');
-	}
-
-	public function createComponentSignInForm(): Control
-	{
-		return $this->userSignInControlFactory->create([$this,'onSignInFormSuccess']);
-	}
-
-	public function onSignInFormSuccess()
-	{
-		$this->flashMessage('Login Successfull', 'success');
-		$this->redirect('Homepage:');
-	}
+	}	
 }
