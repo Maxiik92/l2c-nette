@@ -7,13 +7,13 @@ namespace App\Model;
 use Exception;
 use Nette;
 
-use Nette\Security\Authenticator as A;
+use Nette\Security\Authenticator as NetteAuth;
 use Nette\Security\IIdentity;
 use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
 
 
-abstract class Authenticator implements A {
+class Authenticator implements NetteAuth {
 
     public function __construct(
         private UserModel $userModel,
@@ -28,6 +28,7 @@ abstract class Authenticator implements A {
     function authenticate(string $user, string $password): IIdentity{
         $row = $this->userModel
                 ->getByEmail($user);
+        bdump($row);
 
 		if (!$row) {
 			throw new Exception('User not found.');

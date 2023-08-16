@@ -21,8 +21,7 @@ final class PostModel extends BaseModel
 		private Explorer $database,
 		private TemplateFactory $templateFactory,
 		private LinkGenerator $linkGenerator
-	)
-	{
+	) {
 		parent::__construct($database);
 	}
 
