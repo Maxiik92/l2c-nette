@@ -15,8 +15,7 @@ abstract class BaseModel
 
 	public function __construct(
 		private Explorer $database
-		)
-	{
+	) {
 
 	}
 

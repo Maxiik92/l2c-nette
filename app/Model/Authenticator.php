@@ -17,7 +17,8 @@ abstract class Authenticator implements A {
 
     public function __construct(
         private UserModel $userModel,
-        private Passwords $passwords 
+        private RoleModel $rolemodel,
+        private Passwords $passwords
     ){
     }
 
@@ -41,6 +42,7 @@ abstract class Authenticator implements A {
 
 		return new SimpleIdentity(
 			$row->id,
+            $this->rolemodel->findByUserIdToSelect($row->id),
 			$user
 		);
     }
