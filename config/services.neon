@@ -7,4 +7,5 @@ search:
 
 
 services:
+	- App\Model\Authenticator
 	- App\Router\RouterFactory::createRouter
