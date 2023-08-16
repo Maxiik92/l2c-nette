@@ -1,0 +1,10 @@
+search:
+	default:
+		in: %appDir%
+		classes:
+			- *Factory
+			- *Model
+
+
+services:
+	- App\Router\RouterFactory::createRouter
