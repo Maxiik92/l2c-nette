@@ -9,5 +9,5 @@ use App\Presenters\BasePresenter;
 
 final class HomepagePresenter extends BasePresenter
 {
-use Components\Post\Grid\PresenterTrait;
+use Components\Post\Grid\ControlTrait;
 }
