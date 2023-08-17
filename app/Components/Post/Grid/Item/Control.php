@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Components\Post\Grid\Item;
 
-use App\Model\PostModel;
 use Nette\Application\UI\Control as NetteControl;
 use Nette\Database\Table\ActiveRow;
 

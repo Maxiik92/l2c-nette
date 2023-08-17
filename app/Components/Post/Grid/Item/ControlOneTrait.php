@@ -3,18 +3,20 @@
 declare(strict_types=1);
 
 namespace App\Components\Post\Grid\Item;
+use Nette\Database\Table\ActiveRow;
 
-trait ControlTrait
+trait ControlOneTrait
 {
 	private ControlFactory $postGridItemControlFactory;
+	private ActiveRow $postGridItem;
 
 	public function injectPostGridItemControlFactory(ControlFactory $controlFactory)
 	{
 		$this->postGridItemControlFactory = $controlFactory;
 	}
 
-	public function createComponentPostGrid(): Control
+	public function createComponentPostGridItem(): Control
 	{
-		return $this->postGridItemControlFactory->create();
+		return $this->postGridItemControlFactory->create($this->postGridItem);
 	}
 }
