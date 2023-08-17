@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Components\Post\Grid\Item;
 use Nette\Application\UI\Multiplier;
-use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 
 trait ControlMultipleTrait

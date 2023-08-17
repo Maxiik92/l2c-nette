@@ -8,15 +8,17 @@ use App\Model\CommentModel;
 use App\Model\PostModel;
 use App\Presenters\BasePresenter;
 use Nette\Application\UI\Form;
-
+use App\Components;
 
 final class PostPresenter extends BasePresenter
 {
+
+	use Components\Post\Manipulate\PresenterTrait;
 	public function __construct(
 		private PostModel $postModel,
 		private CommentModel $commentModel
-	) {}
-
+	) {
+	}
 
 	public function renderShow(int $postId): void
 	{
@@ -49,22 +51,8 @@ final class PostPresenter extends BasePresenter
 
 	public function createComponentPostForm(): Form
 	{
-		$form = new Form;
-		$form->addText('title', 'Title:')
-			->setRequired();
 
-		$form->addEmail('content', 'Content:');
-
-		$form->addTextArea('content', 'Comment:')
-			->setRequired();
-
-		$form->addSubmit('send', 'Publish comment');
-		$form->onSuccess[] = [$this, 'commentFormSucceeded'];
-
-		return $form;
 	}
-
-
 	public function commentFormSucceeded(\stdClass $data): void
 	{
 		$this->commentModel->insert([

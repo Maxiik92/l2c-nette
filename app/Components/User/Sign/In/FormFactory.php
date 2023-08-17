@@ -6,9 +6,12 @@ namespace App\Components\User\Sign\In;
 use Exception;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
+use Nette\SmartObject;
 use stdClass;
 
 class FormFactory {
+
+	use SmartObject;
 
     public function __construct(
 		private User $user
