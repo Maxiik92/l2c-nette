@@ -30,7 +30,7 @@ class Control extends NetteControl
     public function createComponentForm(): Form
     {
         $form = $this->formFactory->create();
-        $form->onSuccess[] = [$this, 'onSignInFormSuccess'];
+        $form->onSuccess[] = $this->onSuccess;
         return $form;
     }
 }

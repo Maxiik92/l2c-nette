@@ -17,7 +17,8 @@ class Control extends NetteControl
 
     public function __construct(
         private FormFactory $formFactory,
-        callable $onSuccess
+        callable $onSuccess,
+        private ?int $id = null,
     ) {
         $this->onSuccess = $onSuccess;
     }
@@ -27,10 +28,10 @@ class Control extends NetteControl
         $this->template->setFile(__DIR__ . '/default.latte')->render();
     }
 
-    public function createComponentForm(): Form
+    public function createComponentPostForm(): Form
     {
-        $form = $this->formFactory->create();
-        $form->onSuccess[] = [$this, 'onSignInFormSuccess'];
+        $form = $this->formFactory->create($this->id);
+        $form->onSuccess[] = $this->onSuccess;
         return $form;
     }
 }

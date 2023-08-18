@@ -11,7 +11,7 @@ CREATE TABLE `comment` (
   `name` varchar(765) DEFAULT NULL,
   `email` varchar(765) DEFAULT NULL,
   `content` text DEFAULT NULL,
-  `created_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `post_id` (`post_id`),
   CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)

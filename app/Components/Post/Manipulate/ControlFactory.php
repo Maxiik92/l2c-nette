@@ -8,6 +8,6 @@ interface ControlFactory
 {
     public function create(
         callable $onSuccess,
-        ?int $id,
+        ?int $id
     ): Control;
 }

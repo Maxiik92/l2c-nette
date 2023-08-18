@@ -28,7 +28,6 @@ class Authenticator implements NetteAuth {
     function authenticate(string $user, string $password): IIdentity{
         $row = $this->userModel
                 ->getByEmail($user);
-        bdump($row);
 
 		if (!$row) {
 			throw new Exception('User not found.');

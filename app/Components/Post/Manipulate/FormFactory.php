@@ -42,6 +42,7 @@ class FormFactory {
 		if($postId){
 			$this->postModel->update((string) $postId,$data);
 		}else{
+			unset($data['id']);
 			$postId = $this->postModel->insert($data)->id;
 		}
 		$form['id']->setValue($postId);

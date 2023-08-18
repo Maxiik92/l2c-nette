@@ -20,6 +20,22 @@ final class PostPresenter extends BasePresenter
 	) {
 	}
 
+	public function actionManipulate(int $postId = 0):void {
+		if (!$this->getUser()->isLoggedIn()) {
+            $this->error('To publish a post you must be logged in!');
+            $this->redirect('Sign:in',$this->storeRequest());
+        }
+		if ($postId == 0) {
+			return;
+		}
+
+		$post = $this->postModel->getById($postId);
+		if(!$post){
+			$this->error('Post with selected ID do not exist',404);
+		}
+		$this['postForm']->setDefaults($post->toArray());
+	}
+
 	public function renderShow(int $postId): void
 	{
 		$post = $this->postModel->getById($postId);
@@ -29,6 +45,10 @@ final class PostPresenter extends BasePresenter
 
 		$this->template->post = $post;
 		$this->template->comments = $post->related('comment')->order('created_at');
+	}
+
+	public function renderManipulate(int $postId = 0){
+		$this->template->postId = $postId;
 	}
 
 
@@ -49,10 +69,7 @@ final class PostPresenter extends BasePresenter
 		return $form;
 	}
 
-	public function createComponentPostForm(): Form
-	{
-
-	}
+	
 	public function commentFormSucceeded(\stdClass $data): void
 	{
 		$this->commentModel->insert([
