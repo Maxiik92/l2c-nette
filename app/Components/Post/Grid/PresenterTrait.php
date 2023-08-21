@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\Post\Grid;
 
-trait ControlTrait
+trait PresenterTrait
 {
 	private ControlFactory $postGridControlFactory;
 
@@ -14,7 +14,11 @@ trait ControlTrait
 	}
 
 	public function createComponentPostGrid(): Control
-	{
+	{	
+		if(!$this->postGridControlFactory) {
+			$this->error("Page not found",404);
+		}
+
 		return $this->postGridControlFactory->create();
 	}
 }

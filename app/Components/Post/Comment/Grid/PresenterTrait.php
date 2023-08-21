@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Components\Post\Comment\Grid;
 
-trait ControlTrait
+trait PresenterTrait
 {
 	private ControlFactory $postCommentGridControlFactory;
 	private bool $canCreateCommentGrid = false;

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Components\Post\Grid;
 
-use App\Components;
 use App\Model\PostModel;
 use Nette\Application\UI\Control as NetteControl;
 use App\Components\Post\Grid\Item\ControlFactory;
+use Nette\Application\UI\Multiplier;
+use Nette\Database\Table\Selection;
 
 class Control extends NetteControl
 {
-    use Components\Post\Grid\Item\ControlMultipleTrait;
+    private Selection $posts;
 
     public function __construct(
         private PostModel $postModel,
-        //factory musi mat rovnaky nazova ako v traite
-        private ControlFactory $postGridItemControlFactory,
+        private ControlFactory $controlFactory,
     ) {
         $this->posts = $this->postModel->getPublicArticles()->limit(5);
     }
@@ -25,5 +25,14 @@ class Control extends NetteControl
     {
         $this->template->posts = $this->posts;
         $this->template->setFile(__DIR__ . '/default.latte')->render();
+    }
+
+    public function createComponentPostGridItemMultiple()
+    {
+        $posts = $this->posts;
+        $factory = $this->controlFactory;
+        return new Multiplier(function (string $id) use ($posts, $factory) {
+            return $factory->create($this->posts[(int) $id]);
+        });
     }
 }
