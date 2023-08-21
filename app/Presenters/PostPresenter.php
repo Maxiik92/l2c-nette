@@ -20,20 +20,18 @@ final class PostPresenter extends BasePresenter
 	) {
 	}
 
-	public function actionManipulate(int $postId = 0):void {
-		if (!$this->getUser()->isLoggedIn()) {
-            $this->error('To publish a post you must be logged in!');
-            $this->redirect('Sign:in',$this->storeRequest());
-        }
-		if ($postId == 0) {
-			return;
-		}
+	public function actionAdd()
+	{
+		$this->checkUser();
+	}
 
-		$post = $this->postModel->getById($postId);
-		if(!$post){
-			$this->error('Post with selected ID do not exist',404);
+	public function actionEdit(int $postId)
+	{
+		$this->checkUser();
+		$this->entity = $this->postModel->getById($postId)->toArray();
+		if (!$this->entity) {
+			$this->error('Post with selected ID do not exist', 404);
 		}
-		$this->id = $postId;
 	}
 
 	public function renderShow(int $postId): void
@@ -46,11 +44,6 @@ final class PostPresenter extends BasePresenter
 		$this->template->post = $post;
 		$this->template->comments = $post->related('comment')->order('created_at');
 	}
-
-	public function renderManipulate(int $postId = 0){
-		$this->template->postId = $postId;
-	}
-
 
 	protected function createComponentCommentForm(): Form
 	{
@@ -69,7 +62,7 @@ final class PostPresenter extends BasePresenter
 		return $form;
 	}
 
-	
+
 	public function commentFormSucceeded(\stdClass $data): void
 	{
 		$this->commentModel->insert([
@@ -81,5 +74,13 @@ final class PostPresenter extends BasePresenter
 
 		$this->flashMessage('Thank you for your comment', 'success');
 		$this->redirect('this');
+	}
+
+	public function checkUser()
+	{
+		if (!$this->getUser()->isLoggedIn()) {
+			$this->error('To publish a post you must be logged in!');
+			$this->redirect('Sign:in', $this->storeRequest());
+		}
 	}
 }

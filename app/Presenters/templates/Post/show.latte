@@ -5,7 +5,7 @@
 
 <div class="post">{$post->content}</div>
 {if $user->isloggedIn()}
-<a n:href="edit:edit $post->id">Edit post</a>
+<a n:href="Post:edit $post->id">Edit post</a>
 {/if}
 <h2>Comments</h2>
 

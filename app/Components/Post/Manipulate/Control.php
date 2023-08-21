@@ -18,7 +18,7 @@ class Control extends NetteControl
     public function __construct(
         private FormFactory $formFactory,
         callable $onSuccess,
-        private ?int $id = null,
+        private array $entity,
     ) {
         $this->onSuccess = $onSuccess;
     }
@@ -30,7 +30,7 @@ class Control extends NetteControl
 
     public function createComponentPostForm(): Form
     {
-        $form = $this->formFactory->create($this->id);
+        $form = $this->formFactory->create($this->entity);
         $form->onSuccess[] = $this->onSuccess;
         return $form;
     }

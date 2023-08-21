@@ -11,7 +11,9 @@ trait PresenterTrait
 {
 
     private ControlFactory $postManipulateControlFactory;
-    private ?int $id = null;
+    private array $entity = [
+        'id'=> 0
+    ];
 
     public function injectPostManipulateControlFactory(ControlFactory $controlFactory)
     {
@@ -20,19 +22,19 @@ trait PresenterTrait
 
     public function createComponentPostForm(): Control
     {
-        return $this->postManipulateControlFactory->create(
-            [$this, 'onSuccess'],
-            $this->id
-        );
-    }
-
-    public function onSuccess(Form $form, array $values)
-    {
         if (!$this->getUser()->isLoggedIn()) {
             $this->error('To publish a post you must be logged in!');
             // $this->redirect('Sign:in');
         }
 
+        return $this->postManipulateControlFactory->create(
+            [$this, 'onSuccess'],
+            $this->entity
+        );
+    }
+
+    public function onSuccess(Form $form, array $values)
+    {
         $this->flashMessage('Post successfully published', 'success');
         $this->redirect('show', $values['id']);
     }

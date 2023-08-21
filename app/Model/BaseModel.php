@@ -31,7 +31,7 @@ abstract class BaseModel
 			->get($id);
 	}
 
-	public function update(string $id, array $data)
+	public function update(int $id, array $data)
 	{
 		$numId = intval($id);
 		$item = $this->getById($numId);

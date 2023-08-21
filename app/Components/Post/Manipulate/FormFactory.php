@@ -3,25 +3,29 @@
 declare(strict_types=1);
 
 namespace App\Components\Post\Manipulate;
+
 use App\Model\PostModel;
 use Nette\Application\UI\Form;
 use Nette\SmartObject;
 
-class FormFactory {
+class FormFactory
+{
 
 	use SmartObject;
 
-	private ?int $id;
+	private array $entity;
 
-    public function __construct(
+	public function __construct(
 		private PostModel $postModel,
-	){}
+	) {
+	}
 
-    public function create(int $id = null): Form{
+	public function create(array $entity = null): Form
+	{
 		$form = new Form;
 
-		$this->id = $id;
-		
+		$this->entity = $entity;
+
 		$form->addHidden('id');
 		$form->addText('title', 'Title:')
 			->setRequired();
@@ -31,22 +35,22 @@ class FormFactory {
 
 		$form->addSubmit('send', 'Publish Post');
 		$form->onSuccess[] = [$this, 'onSuccess'];
-		
-		if($id){
-			$form->setDefaults($this->postModel->getById($id));
-		}
+
+		$form->setDefaults($entity);
 
 		return $form;
-    }
+	}
 
 	public function onSuccess(Form $form, array $data): void
 	{
-		if($this->id){
-			$this->postModel->update((string) $this->id,$data);
-		}else{
+		$eId = $this->entity['id'];
+		if ($eId) {
+			$this->postModel->update($eId, $data);
+		} else {
 			unset($data['id']);
-			$this->id = $this->postModel->insert($data)->id;
+			$this->entity = $this->postModel->insert($data)->toArray();
+			$eId = $this->entity['id'];
 		}
-		$form['id']->setValue($this->id);
+		$form['id']->setValue($eId);
 	}
 }
