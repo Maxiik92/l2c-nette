@@ -14,6 +14,7 @@ trait PresenterTrait
     private array $entity = [
         'id'=> 0
     ];
+    private bool $canCreatePostForm = false;
 
     public function injectPostManipulateControlFactory(ControlFactory $controlFactory)
     {
@@ -24,7 +25,9 @@ trait PresenterTrait
     {
         if (!$this->getUser()->isLoggedIn()) {
             $this->error('To publish a post you must be logged in!');
-            // $this->redirect('Sign:in');
+            
+        }elseif (!$this->canCreatePostForm || !$this->postManipulateControlFactory || !isset($this->entity['id'])){
+            $this->error("Page not found",404);
         }
 
         return $this->postManipulateControlFactory->create(

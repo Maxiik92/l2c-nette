@@ -4,83 +4,67 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use App\Model\CommentModel;
 use App\Model\PostModel;
 use App\Presenters\BasePresenter;
-use Nette\Application\UI\Form;
 use App\Components;
+use Nette\Database\Table\ActiveRow;
 
 final class PostPresenter extends BasePresenter
 {
 
 	use Components\Post\Manipulate\PresenterTrait;
+	use Components\Post\Comment\Add\PresenterTrait;
+	// use Components\Post\Detail\ControlTrait;
+	use Components\Post\Comment\Grid\ControlTrait;
+
+
+	private $post;
+	private int $postId = 0;
 	public function __construct(
 		private PostModel $postModel,
-		private CommentModel $commentModel
 	) {
+		parent::__construct();
 	}
 
-	public function actionAdd()
+	public function actionAdd(): void
 	{
 		$this->checkUser();
+		$this->canCreatePostForm = true;
 	}
 
-	public function actionEdit(int $postId)
+	public function actionEdit(int $postId): void
 	{
 		$this->checkUser();
-		$this->entity = $this->postModel->getById($postId)->toArray();
-		if (!$this->entity) {
-			$this->error('Post with selected ID do not exist', 404);
-		}
+		$this->entity = $this->checkPostExistence($postId)->toArray();
+		$this->canCreatePostForm = true;
 	}
-
-	public function renderShow(int $postId): void
+	//POTREBNE ROZDELOVAT ACTION A RENDER LEBO RENDER JE LAZY redirecty v actione
+	public function actionShow(int $postId): void
 	{
-		$post = $this->postModel->getById($postId);
-		if (!$post) {
-			$this->error('Post not found');
-		}
-
-		$this->template->post = $post;
-		$this->template->comments = $post->related('comment')->order('created_at');
+		$this->postId = $postId;
+		$this->post = $this->checkPostExistence($postId);
+		$this->canCreateCommentForm = true;
+		$this->canCreateCommentGrid = true;
 	}
-
-	protected function createComponentCommentForm(): Form
+	public function renderShow(): void
 	{
-		$form = new Form;
-		$form->addText('name', 'Your name:')
-			->setRequired();
-
-		$form->addEmail('email', 'Email:');
-
-		$form->addTextArea('content', 'Comment:')
-			->setRequired();
-
-		$form->addSubmit('send', 'Publish comment');
-		$form->onSuccess[] = [$this, 'commentFormSucceeded'];
-
-		return $form;
+		$this->template->post = $this->post;
 	}
 
-
-	public function commentFormSucceeded(\stdClass $data): void
-	{
-		$this->commentModel->insert([
-			'post_id' => $this->getParameter('postId'),
-			'name' => $data->name,
-			'email' => $data->email,
-			'content' => $data->content,
-		]);
-
-		$this->flashMessage('Thank you for your comment', 'success');
-		$this->redirect('this');
-	}
-
-	public function checkUser()
+	public function checkUser(): void
 	{
 		if (!$this->getUser()->isLoggedIn()) {
 			$this->error('To publish a post you must be logged in!');
 			$this->redirect('Sign:in', $this->storeRequest());
 		}
+	}
+
+	private function checkPostExistence(int $postId): ActiveRow
+	{
+		$post = $this->postModel->getById($postId);
+		if (!$post) {
+			$this->error('Post not found', 404);
+		}
+		return $post;
 	}
 }

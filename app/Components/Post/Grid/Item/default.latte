@@ -1,6 +1,6 @@
-	<div class="date">{$post->created_at|date:'F j, Y'}</div>
     	<h2>
         {* Componenta vie odkazovat iba na seba sama ale plink sluzi na odkazanie na iny presenter *}
             <a href="{plink Post:show $post->id}">{$post->title}</a>
         </h2>
+	<div class="date">{$post->created_at|date:'F j, Y'}</div>
 	<div>{$post->content}</div>

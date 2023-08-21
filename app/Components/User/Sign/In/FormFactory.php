@@ -34,7 +34,6 @@ class FormFactory {
 
     public function onSuccess(Form $form, stdClass $data): void
 	{
-        bdump($data);
 		try {
 			$this->user->login($data->email, $data->password);
 		} catch (Exception $e) {
