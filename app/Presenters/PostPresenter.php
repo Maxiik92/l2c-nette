@@ -33,7 +33,7 @@ final class PostPresenter extends BasePresenter
 		if(!$post){
 			$this->error('Post with selected ID do not exist',404);
 		}
-		$this['postForm']->setDefaults($post->toArray());
+		$this->id = $postId;
 	}
 
 	public function renderShow(int $postId): void

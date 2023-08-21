@@ -20,7 +20,10 @@ trait PresenterTrait
 
     public function createComponentPostForm(): Control
     {
-        return $this->postManipulateControlFactory->create([$this, 'onSuccess'], $this->id);
+        return $this->postManipulateControlFactory->create(
+            [$this, 'onSuccess'],
+            $this->id
+        );
     }
 
     public function onSuccess(Form $form, array $values)

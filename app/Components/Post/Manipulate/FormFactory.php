@@ -31,20 +31,22 @@ class FormFactory {
 
 		$form->addSubmit('send', 'Publish Post');
 		$form->onSuccess[] = [$this, 'onSuccess'];
+		
+		if($id){
+			$form->setDefaults($this->postModel->getById($id));
+		}
 
 		return $form;
     }
 
 	public function onSuccess(Form $form, array $data): void
 	{
-		$postId = $this->id;
-		
-		if($postId){
-			$this->postModel->update((string) $postId,$data);
+		if($this->id){
+			$this->postModel->update((string) $this->id,$data);
 		}else{
 			unset($data['id']);
-			$postId = $this->postModel->insert($data)->id;
+			$this->id = $this->postModel->insert($data)->id;
 		}
-		$form['id']->setValue($postId);
+		$form['id']->setValue($this->id);
 	}
 }
