@@ -7,6 +7,8 @@ namespace App\Components\Post\Manipulate;
 use App\Model\PostModel;
 use Nette\Application\UI\Form;
 use Nette\SmartObject;
+use App\Core\FormFactory as FF;
+
 
 class FormFactory
 {
@@ -17,12 +19,13 @@ class FormFactory
 
 	public function __construct(
 		private PostModel $postModel,
+		private FF $formFactory,
 	) {
 	}
 
 	public function create(array $entity = null): Form
 	{
-		$form = new Form;
+        $form = $this->formFactory->create();
 
 		$this->entity = $entity;
 

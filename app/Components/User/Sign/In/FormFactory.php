@@ -8,17 +8,19 @@ use Nette\Application\UI\Form;
 use Nette\Security\User;
 use Nette\SmartObject;
 use stdClass;
+use App\Core\FormFactory as FF;
 
 class FormFactory {
 
 	use SmartObject;
 
     public function __construct(
-		private User $user
+		private User $user,
+		private FF $formFactory,
 	){}
 
     public function create(): Form{
-        $form = new Form;
+        $form = $this->formFactory->create();
 		$form->addEmail('email', 'E-mail:')
 			->setRequired('Please enter your E-mail.');
 

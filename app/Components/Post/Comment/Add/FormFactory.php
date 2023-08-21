@@ -7,6 +7,8 @@ namespace App\Components\Post\Comment\Add;
 use App\Model\CommentModel;
 use Nette\Application\UI\Form;
 use Nette\SmartObject;
+use App\Core\FormFactory as FF;
+
 
 class FormFactory
 {
@@ -15,13 +17,14 @@ class FormFactory
 
 	public function __construct(
 		private CommentModel $commentModel,
+		private FF $formFactory,
 	) {
 	}
 
 	public function create(int $id = null): Form
 	{
 		$this->postId = $id;
-		$form = new Form;
+		$form = $this->formFactory->create();
 		$form->addText('name', 'Your name:')
 			->setRequired();
 
