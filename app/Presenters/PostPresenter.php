@@ -15,7 +15,7 @@ final class PostPresenter extends BasePresenter
 	use Components\Post\Manipulate\PresenterTrait;
 	use Components\Post\Comment\Add\PresenterTrait;
 	// use Components\Post\Detail\ControlTrait;
-	use Components\Post\Comment\Grid\ControlTrait;
+	use Components\Post\Comment\Grid\PresenterTrait;
 
 
 	private $post;

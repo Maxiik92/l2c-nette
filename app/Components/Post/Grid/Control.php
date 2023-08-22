@@ -12,27 +12,38 @@ use Nette\Database\Table\Selection;
 
 class Control extends NetteControl
 {
+    /**
+     *@var int @persistant
+     */
+    public int $page = 1;
+    private int $itemsPerPage = 5;
     private Selection $posts;
 
     public function __construct(
         private PostModel $postModel,
         private ControlFactory $controlFactory,
     ) {
-        $this->posts = $this->postModel->getPublicArticles()->limit(5);
     }
 
     public function render()
     {
-        $this->template->posts = $this->posts;
+        $this->template->numOfPages = 0;
+        $this->template->page = $this->page;
+        $this->template->posts = $this->postModel->getPublicArticles()->page($this->page, $this->itemsPerPage,$this->template->numOfPages);
         $this->template->setFile(__DIR__ . '/default.latte')->render();
     }
 
     public function createComponentPostGridItemMultiple()
     {
-        $posts = $this->posts;
+        $postModel = $this->postModel;
         $factory = $this->controlFactory;
-        return new Multiplier(function (string $id) use ($posts, $factory) {
-            return $factory->create($this->posts[(int) $id]);
+        return new Multiplier(function (string $id) use ($postModel, $factory) {
+            return $factory->create($postModel->getById((int)$id));
         });
+    }
+
+    public function handlePage(int $page): void
+    {
+        $this->page = $page;
     }
 }

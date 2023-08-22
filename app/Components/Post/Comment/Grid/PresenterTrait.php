@@ -16,9 +16,9 @@ trait PresenterTrait
 
 	public function createComponentCommentPostGrid(): Control
 	{
-		if(!$this->canCreateCommentGrid || $this->postId < 1 || !$this->postCommentGridControlFactory){
-            $this->error('Page not Found',404);
-        }
+		if (!$this->canCreateCommentGrid || $this->postId < 1 || !$this->postCommentGridControlFactory) {
+			$this->error('Page not Found', 404);
+		}
 		return $this->postCommentGridControlFactory->create($this->postId);
 	}
 }
