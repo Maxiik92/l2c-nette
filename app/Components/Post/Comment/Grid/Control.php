@@ -49,5 +49,4 @@ class Control extends NetteControl
     {
         $this->page += 1;
     }
-
 }
