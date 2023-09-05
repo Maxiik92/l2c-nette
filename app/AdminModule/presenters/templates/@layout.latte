@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+
+	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Framework Micro-blog</title>
+
+	<link rel="stylesheet" href="{$basePath}/css/style.css">
+</head>
+
+<body>
+	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+	{include content}
+	{block scripts}
+	{* jquery *}
+	<script
+  		src="https://code.jquery.com/jquery-3.7.1.min.js"
+  		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  		crossorigin="anonymous">
+	</script>
+		<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+		<script src="{$basePath}/js/plugins/nette.ajax.js-master/nette.ajax.js"></script>
+		<script src="{$basePath}/js/main.js"></script>
+	{/block}
+</body>
+</html>
