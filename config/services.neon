@@ -9,3 +9,4 @@ services:
 	- App\Model\Authenticator
 	- App\Router\RouterFactory::createRouter
 	- App\Core\MailSender(templatePath: %mailTemplatePath%)
+	- App\Model\AuthorizatorFactory::create()

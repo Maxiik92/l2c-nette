@@ -1,6 +1,8 @@
 {block content}
-    <h1>
-        Edit Post
-    </h1>
-    {control postForm}
+    {if $user->isAllowed('post','edit')}
+        <h1>
+            Edit Post
+        </h1>
+        {control postForm}
+    {/if}
 {/block}

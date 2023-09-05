@@ -1,5 +1,6 @@
 {block content}
 	<h1 n:block="title">My awesome blog</h1>
-
-	{control postGrid}
+	{if $user->isAllowed('postList','view')}
+		{control postGrid}
+	{/if}
 {/block}

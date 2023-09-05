@@ -1,6 +1,8 @@
 {block content}
-    <h1>
-        Create a Post
-    </h1>
-    {control postForm}
+    {if $user->isAllowed('post','create')}
+        <h1>
+            Create a Post
+        </h1>
+        {control postForm}
+    {/if}
 {/block}

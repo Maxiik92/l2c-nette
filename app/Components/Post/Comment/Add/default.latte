@@ -1,4 +1,6 @@
-<h2>Post new comment</h2>
-{snippet  form}
-    {control commentForm}
-{/snippet}
+{if $user->isAllowed('comment','create')}
+    <h2>Post new comment</h2>
+    {snippet  form}
+        {control commentForm}
+    {/snippet}
+{/if}
