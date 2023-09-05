@@ -30,7 +30,13 @@ class Control extends NetteControl
     public function createComponentForm(): Form
     {
         $form = $this->formFactory->create();
+        $form->onSubmit[] = [$this, 'onSubmit'];
         $form->onSuccess[] = $this->onSuccess;
         return $form;
+    }
+
+    public function onSubmit()
+    {
+        $this->redrawControl('form');
     }
 }

@@ -45,5 +45,6 @@ class Control extends NetteControl
     public function handlePage(int $page): void
     {
         $this->page = $page;
+        $this->redrawControl('posts');
     }
 }

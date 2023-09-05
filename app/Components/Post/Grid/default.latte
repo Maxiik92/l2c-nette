@@ -1,8 +1,10 @@
-<div n:foreach="$posts as $post" class="post">
-	{control "postGridItemMultiple-$post->id"}
-</div>
+{snippet posts}
+	<div n:foreach="$posts as $post" class="post">
+		{control "postGridItemMultiple-$post->id"}
+	</div>
+{/snippet}
 <div class="paginator">
-	<a n:href="page! 1"><<</a>
-	<a n:class="next-page, $page == $i ? current-page" n:for="$i = max(1, $page-3); $i<=min($numOfPages, $page +3);$i++" n:href="page! $i">{$i}</a>
-	<a n:href="page! $numOfPages">>></a>
+	<a class="ajax" n:href="page! 1"><<</a>
+	<a n:class="next-page, $page == $i ? current-page, ajax" n:for="$i = max(1, $page-3); $i<=min($numOfPages, $page +3);$i++" n:href="page! $i">{$i}</a>
+	<a class="ajax" n:href="page! $numOfPages">>></a>
 </div>

@@ -29,8 +29,9 @@ class Control extends NetteControl
     public function render()
     {
         $this->template->numOfPages = 0;
+        bdump($this->page);
         $this->template->page = $this->page;
-        $this->comments = $this->commentModel->getCommentsByPostId($this->postId, $this->page * $this->itemsPerPage);
+        $this->comments = $this->commentModel->getCommentsByPostId($this->postId)->page($this->page, $this->itemsPerPage);
         $this->template->comments = $this->comments;
         $this->template->setFile(__DIR__ . '/default.latte')->render();
     }

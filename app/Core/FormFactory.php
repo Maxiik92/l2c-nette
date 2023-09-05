@@ -8,7 +8,9 @@ use Nette\Application\UI\Form;
 Class FormFactory {
     public function create():Form{
         $form = new Form();
-        $form->getElementPrototype()->setAttribute('novalidate','novalidate');
+        $form->getElementPrototype()
+            ->setAttribute('novalidate','novalidate')
+            ->setAttribute('class','ajax');
         return $form;
     }
 }

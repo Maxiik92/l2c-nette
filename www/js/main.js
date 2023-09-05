@@ -1,3 +1,4 @@
 $(function () {
+	Nette={};
 	$.nette.init();
 });
