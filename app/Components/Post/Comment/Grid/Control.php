@@ -30,7 +30,7 @@ class Control extends NetteControl
     {
         $this->template->numOfPages = 0;
         $this->template->page = $this->page;
-        $this->comments = $this->commentModel->getCommentsByPostId($this->postId)->page($this->page,$this->itemsPerPage,$this->template->numOfPages);
+        $this->comments = $this->commentModel->getCommentsByPostId($this->postId, $this->page * $this->itemsPerPage);
         $this->template->comments = $this->comments;
         $this->template->setFile(__DIR__ . '/default.latte')->render();
     }
@@ -45,8 +45,9 @@ class Control extends NetteControl
         });
     }
 
-    public function handlePage(int $page): void
+    public function handleLoadMore(): void
     {
-        $this->page = $page;
+        $this->page += 1;
     }
+
 }
