@@ -48,5 +48,6 @@ class Control extends NetteControl
     public function handleLoadMore(): void
     {
         $this->page += 1;
+        $this->redrawControl('comments');
     }
 }

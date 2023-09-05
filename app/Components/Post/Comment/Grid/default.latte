@@ -1,6 +1,8 @@
-<div n:foreach="$comments as $comment" class="comment">
-	{control "postCommentGridItemMultiple-$comment->id"}
+<div class="comments" n:snippet="comments">
+	{foreach $comments as $comment}
+		{control "postCommentGridItemMultiple-$comment->id"}
+	{/foreach}
 </div>
 <div class="paginator">
-	<a n:href="loadMore!">Load More</a>
+	<a n:href="loadMore!" class="ajax">Load More</a>
 </div>
