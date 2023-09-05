@@ -5,7 +5,7 @@ search:
 			- *Factory
 			- *Model
 
-
 services:
 	- App\Model\Authenticator
 	- App\Router\RouterFactory::createRouter
+	- App\Core\MailSender(templatePath: %mailTemplatePath%)

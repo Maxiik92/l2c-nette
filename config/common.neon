@@ -1,5 +1,5 @@
 parameters:
-
+	mailTemplatePath: '%appDir%\Presenters\templates\components\mail\'
 
 application:
 	errorPresenter: Error
