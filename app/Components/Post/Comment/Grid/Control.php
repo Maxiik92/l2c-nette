@@ -15,6 +15,8 @@ use Nette\Database\Table\Selection;
 class Control extends NetteControl
 {
     private Selection $comments;
+    public int $page = 1;
+    private int $itemsPerPage = 3;
 
     public function __construct(
         private CommentModel $commentModel,
@@ -22,11 +24,13 @@ class Control extends NetteControl
         private ControlFactory $controlFactory,
         private int $postId
     ) {
-        $this->comments = $this->commentModel->getCommentsByPostId($this->postId);
     }
 
     public function render()
     {
+        $this->template->numOfPages = 0;
+        $this->template->page = $this->page;
+        $this->comments = $this->commentModel->getCommentsByPostId($this->postId)->page($this->page,$this->itemsPerPage,$this->template->numOfPages);
         $this->template->comments = $this->comments;
         $this->template->setFile(__DIR__ . '/default.latte')->render();
     }
@@ -39,5 +43,10 @@ class Control extends NetteControl
         return new Multiplier(function (string $id) use ($items, $factory) {
             return $factory->create($items[(int) $id]);
         });
+    }
+
+    public function handlePage(int $page): void
+    {
+        $this->page = $page;
     }
 }
