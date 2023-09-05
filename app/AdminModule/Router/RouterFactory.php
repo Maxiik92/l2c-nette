@@ -18,6 +18,7 @@ final class RouterFactory
 		$router
 			->withModule('Admin') //prefix modulu aby sa nemusel pisat do kazdej cesty
 			->withPath('admin') // prefix cesty aby sa nemusela pisat vsetko bude s prefixom admin/
+			->addRoute('login','Sign:in')
 			->addRoute('<presenter>/<action>', 'Homepage:default');
 		return $router;
 	}

@@ -8,4 +8,12 @@ use Nette\Application\UI\Presenter;
 
 abstract class BasePresenter extends Presenter
 {
+
+    protected function startup(){
+        if (!$this->isLinkCurrent('Sign:in') && !$this->user->isInRole('moderator')){
+            $this->flashMessage('You are unauthorized for this section','error');
+            $this->redirect('Sign:in');
+        }
+        parent::startup();
+    }
 }
