@@ -10,7 +10,7 @@ abstract class BasePresenter extends Presenter
 {
 
     protected function startup(){
-        if (!$this->isLinkCurrent('Sign:in') && !$this->user->isInRole('moderator')){
+        if (!$this->isLinkCurrent('Sign:in') && !$this->user->isAllowed('admin')){
             $this->flashMessage('You are unauthorized for this section','error');
             $this->redirect('Sign:in');
         }

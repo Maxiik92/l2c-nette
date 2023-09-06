@@ -11,6 +11,7 @@ use Nette\Application\UI\Control as NetteControl;
 use App\Components\Post\Comment\Grid\Item\ControlFactory;
 use Nette\Application\UI\Multiplier;
 use Nette\Database\Table\Selection;
+use Nette\Http\Session;
 
 class Control extends NetteControl
 {
@@ -22,16 +23,29 @@ class Control extends NetteControl
         private CommentModel $commentModel,
         //factory musi mat rovnaky nazova ako v traite
         private ControlFactory $controlFactory,
-        private int $postId
+        private int $postId,
+        private Session $session
     ) {
+        // unset($_SESSION['commentsPage']);
+
+        if (isset($_SESSION['commentsPage'])) {
+            $this->page = $_SESSION['commentsPage'];
+        }
+        if(isset($_SESSION['CommentsPagePost'.$this->postId])){
+            bdump($_SESSION['CommentsPagePost'.$this->postId] < $this->page);
+            if($_SESSION['CommentsPagePost'.$this->postId] < $this->page){
+                $this->page = 1;
+            }
+        }
+        bdump($this->page);
     }
 
     public function render()
     {
         $this->template->numOfPages = 0;
-        bdump($this->page);
         $this->template->page = $this->page;
-        $this->comments = $this->commentModel->getCommentsByPostId($this->postId)->page($this->page, $this->itemsPerPage);
+        $this->comments = $this->commentModel->getCommentsByPostId($this->postId)->page($this->page, $this->itemsPerPage, $this->template->NumOfPages);
+        $_SESSION['CommentsPagePost'.$this->postId] = $this->template->NumOfPages;
         $this->template->comments = $this->comments;
         $this->template->setFile(__DIR__ . '/default.latte')->render();
     }
@@ -49,6 +63,7 @@ class Control extends NetteControl
     public function handleLoadMore(): void
     {
         $this->page += 1;
+        $_SESSION['commentsPage'] = $this->page;
         $this->redrawControl('comments');
     }
 }
