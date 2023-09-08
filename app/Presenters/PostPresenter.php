@@ -28,33 +28,35 @@ final class PostPresenter extends BasePresenter
 
 	public function actionAdd(): void
 	{
-		$this->checkUser();
+		$this->checkPriviLege('add');
 		$this->canCreatePostForm = true;
 	}
 
 	public function actionEdit(int $postId): void
 	{
-		$this->checkUser();
+		$this->checkPrivilege('edit');
 		$this->entity = $this->checkPostExistence($postId)->toArray();
 		$this->canCreatePostForm = true;
 	}
 	//POTREBNE ROZDELOVAT ACTION A RENDER LEBO RENDER JE LAZY redirecty v actione
 	public function actionShow(int $postId): void
 	{
+		$this->checkPrivilege('view');
 		$this->postId = $postId;
 		$this->post = $this->checkPostExistence($postId);
-		$this->canCreateCommentForm = true;
-		$this->canCreateCommentGrid = true;
+		$this->canCreateCommentForm = $this->getUser()->isAllowed('comment','add');
+		$this->canCreateCommentGrid = $this->getUser()->isAllowed('commentGrid','view');
 	}
+	
 	public function renderShow(): void
 	{
 		$this->template->post = $this->post;
 	}
 
-	public function checkUser(): void
+	public function checkPrivilege(string $privilege): void
 	{
-		if (!$this->getUser()->isLoggedIn()) {
-			$this->error('To publish a post you must be logged in!');
+		if (!$this->getUser()->isAllowed('post', $privilege)) {
+			$this->flashMessage('Unauthorized for this action!', 'error');
 			$this->redirect('Sign:in', $this->storeRequest());
 		}
 	}

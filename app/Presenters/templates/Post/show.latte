@@ -1,16 +1,23 @@
 {block content}
-<div class="date">{$post->created_at|date:'F j, Y'}</div>
+<div class="date">
+	{$post->created_at|date:'F j, Y'}
+</div>
 
 <h1 n:block=title>{$post->title}</h1>
 
-<div class="post">{$post->content}</div>
-{if $user->isloggedIn()}
-<a n:href="Post:edit $post->id">Edit post</a>
+<div class="post">
+	{$post->content}
+</div>
+{if $user->isAllowed('post','add')}
+	<a n:href="Post:edit $post->id">Edit post</a>
 {/if}
 <h2>Comments</h2>
-
-{control commentForm}
+{if $user->isAllowed('comment','add')}
+	{control commentForm}
+{/if}
 
 <div class="comments">
-	{control commentPostGrid}
+	{if $user->isAllowed('commentGrid','view')}
+		{control commentPostGrid}
+	{/if}
 </div>

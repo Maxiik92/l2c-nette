@@ -19,16 +19,16 @@ class AuthorizatorFactory
 		$acl->addResource('admin');         //view, logout
 
         $acl->addResource('post');          //view,add,edit,delete
-        $acl->addResource('postList');      //view
+        $acl->addResource('postGrid');      //view
         $acl->addResource('comment');       //view,add,edit,delete
-        $acl->addResource('commentList');   //view
+        $acl->addResource('commentGrid');   //view
 
         $acl->deny('guest');
 		$acl->allow('guest','public','view');
         $acl->allow('guest','post','view');
-        $acl->allow('guest','postList','view');
+        $acl->allow('guest','postGrid','view');
         $acl->allow('guest','comment','view');
-        $acl->allow('guest','commentList','view');
+        $acl->allow('guest','commentGrid','view');
 
         $acl->allow('user','comment','add');;
 		$acl->deny('user','public','logout');

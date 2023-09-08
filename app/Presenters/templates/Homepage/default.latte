@@ -1,6 +1,8 @@
 {block content}
 	<h1 n:block="title">My awesome blog</h1>
-	{if $user->isAllowed('postList','view')}
+	<a n:href="Post:add" n:if="$user->isAllowed('post','add')">Add New Post</a>
+
+	{if $user->isAllowed('postGrid','view')}
 		{control postGrid}
 	{/if}
 {/block}

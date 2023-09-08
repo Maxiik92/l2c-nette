@@ -14,7 +14,6 @@
 		<li><a n:href="Homepage:">Homepage</a></li>
 		{if $user->isAllowed('public','logout')}
 			<li><a n:href="Sign:out">Sign out</a></li>
-			<li><a n:href="Post:add">Add a Post</a></li>
 		{else}
 			<li><a n:href="Sign:in">Sign in</a></li>
 		{/if}
