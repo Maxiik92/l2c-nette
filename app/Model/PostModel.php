@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use App\Model\Entity\Resource;
 use Nette;
 use App\Core\MailSender;
 use Nette\Database\Explorer;
@@ -40,6 +41,11 @@ final class PostModel extends BaseModel
 
 		$this->mailSender->sendPostInserted($retval->toArray());
 		return $retval;
+	}
+
+	public function toEntity(ActiveRow $row): Resource
+	{
+		return Resource::create($this->getTableName(), $row->author_id);
 	}
 
 }

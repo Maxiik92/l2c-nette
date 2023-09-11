@@ -42,6 +42,8 @@ final class PostPresenter extends BasePresenter
 	public function actionShow(int $postId): void
 	{
 		$this->checkPrivilege('view');
+
+		bdump($this->user->isAllowed('post','edit'));
 		$this->postId = $postId;
 		$this->post = $this->checkPostExistence($postId);
 		$this->canCreateCommentForm = $this->getUser()->isAllowed('comment','add');

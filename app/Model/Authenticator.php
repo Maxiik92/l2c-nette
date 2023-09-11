@@ -42,7 +42,7 @@ class Authenticator implements NetteAuth {
 
 		return new SimpleIdentity(
 			$row->id,
-            $this->rolemodel->findByUserIdToSelect($row->id),
+            $this->rolemodel->findAllByUserIdAsEntity($row->id),
 			$user
 		);
     }

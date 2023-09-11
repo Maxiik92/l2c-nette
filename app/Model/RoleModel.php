@@ -27,19 +27,16 @@ class RoleModel extends BaseModel
 
     public function findByUserIdToSelect(int $id, bool $returnAsEntity = false): array
     {
-        $retVal = $this->findByUserId($id)
+        return $this->findByUserId($id)
             ->fetchPairs('id', 'name');
-
-        if ($returnAsEntity) {
-            $retVal = array_map(
-                function (string $name) use ($id) {
-                    return Role::create($id, $name);
-                },
-                $retVal
-            );
-        }
-
-        return $retVal;
     }
 
+    public function findAllByUserIdAsEntity(int $id): array {
+        return array_map(
+            function (string $name) use ($id) {
+                return Role::create($id, $name);
+            },
+            $this->findByUserIdToSelect($id),
+        );
+    }
 }

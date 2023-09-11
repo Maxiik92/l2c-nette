@@ -36,7 +36,7 @@ class AuthorizatorFactory
         $acl->deny('user', 'public', 'logout');
 
         $acl->allow('moderator', 'post', 'add');
-        $acl->allow('moderator', 'post', 'edit', []);
+        $acl->allow('moderator', 'post', 'edit', [self::class, 'checkEditPost']);
         $acl->allow('moderator', 'post', 'delete');
 
         $acl->allow('admin');
@@ -46,6 +46,6 @@ class AuthorizatorFactory
     {
         $role = $acl->getQueriedRole(); // object Registered
         $resource = $acl->getQueriedResource(); // object Article
-        return $role->id === $resource->authorId;
+        return $role->getUserId() === $resource->getAuthorId();
     }
 }

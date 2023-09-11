@@ -24,7 +24,8 @@ class Role implements IRole
         return $this->userId;
     }
 
-    public static function create(int $userId,string $roleId ):self {
-        return new Role($userId,$roleId);
+    public static function create(int $userId, string $roleId): self
+    {
+        return new Role($userId, $roleId);
     }
 }
