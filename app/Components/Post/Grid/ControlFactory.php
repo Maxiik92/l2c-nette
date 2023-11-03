@@ -6,5 +6,7 @@ namespace App\Components\Post\Grid;
 
 interface ControlFactory
 {
-    public function create(): Control;
+	public function create(
+		?int $authorId,
+	): Control;
 }

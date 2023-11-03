@@ -7,6 +7,7 @@ namespace App\Components\Post\Grid;
 trait PresenterTrait
 {
 	private ControlFactory $postGridControlFactory;
+	private ?int $authorId = null;
 
 	public function injectPostGridControlFactory(ControlFactory $controlFactory)
 	{
@@ -19,7 +20,7 @@ trait PresenterTrait
 			$this->error("Page not found", 404);
 		}
 
-		return $this->postGridControlFactory->create();
+		return $this->postGridControlFactory->create($this->authorId);
 	}
 
 

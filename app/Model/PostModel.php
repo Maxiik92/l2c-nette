@@ -27,12 +27,18 @@ final class PostModel extends BaseModel
 	{
 		return 'post';
 	}
-	public function getPublicArticles(int $limit = null)
+	public function getPublicArticles(int $limit = null, ?int  $authorId = null )
 	{
-		return $this->getTable()
+		$retVal = $this->getTable()
 			->where('created_at < ', new \DateTime)
 			->order('created_at DESC')
 			->limit($limit);
+		
+		if ($authorId) {
+			$retVal->where('author_id',$authorId);
+		}
+
+		return $retVal;
 	}
 
 	public function insert(array $values): ActiveRow

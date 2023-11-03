@@ -40,6 +40,8 @@ class AuthorizatorFactory
         $acl->allow('moderator', 'post', 'add');
         $acl->allow('moderator', 'post', 'edit',	[self::class, 'checkResourceManipulateAsAuthor']);
         $acl->allow('moderator', 'post', 'delete',	[self::class, 'checkResourceManipulateAsAuthor']);
+        $acl->allow('moderator', 'admin', 'view');
+        $acl->allow('moderator', 'admin', 'logout');
 
         $acl->allow('admin');
         return $acl;

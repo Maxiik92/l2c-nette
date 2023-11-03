@@ -22,6 +22,7 @@ class Control extends NetteControl
     public function __construct(
         private PostModel $postModel,
         private ControlFactory $controlFactory,
+		private ?int $authorId,
     ) {
     }
 
@@ -29,7 +30,8 @@ class Control extends NetteControl
     {
         $this->template->numOfPages = 0;
         $this->template->page = $this->page;
-        $this->template->posts = $this->postModel->getPublicArticles()->page($this->page, $this->itemsPerPage,$this->template->numOfPages);
+		//PHP MOZE POSIELAT DO KTOREHO ARGUMENTU CHCEME
+        $this->template->posts = $this->postModel->getPublicArticles(authorId: $this->authorId)->page($this->page, $this->itemsPerPage,$this->template->numOfPages);
         $this->template->setFile(__DIR__ . '/default.latte')->render();
     }
 
