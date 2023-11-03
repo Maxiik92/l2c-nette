@@ -10,16 +10,13 @@ use App\Presenters\BasePresenter;
 use App\Components;
 use Nette\Database\Table\ActiveRow;
 
-final class PostPresenter extends BasePresenter
+class PostPresenter extends BasePresenter
 {
-
 	use Components\Post\Manipulate\PresenterTrait;
 	use Components\Post\Comment\Add\PresenterTrait;
-	// use Components\Post\Detail\ControlTrait;
 	use Components\Post\Comment\Grid\PresenterTrait;
 
-
-	private PostResource $post;
+	protected PostResource $post;
 	private int $postId = 0;
 	public function __construct(
 		private PostModel $postModel,
@@ -29,14 +26,14 @@ final class PostPresenter extends BasePresenter
 
 	public function actionAdd(): void
 	{
-		$this->checkPriviLege('add');
+		$this->checkPriviLege('post','add');
 		$this->canCreatePostForm = true;
 	}
 
 	public function actionEdit(int $postId): void
 	{
 		$post = $this->checkPostExistence($postId);
-		$this->checkPrivilege('edit',$this->postModel->toEntity($post));
+		$this->checkPrivilege($this->postModel->toEntity($post),'edit');
 		$this->entity = $post->toArray();
 		$this->canCreatePostForm = true;
 	}
@@ -44,7 +41,7 @@ final class PostPresenter extends BasePresenter
 	public function actionShow(int $postId): void
 	{
 		$this->post = $this->postModel->toEntity($this->checkPostExistence($postId));
-		$this->checkPrivilege('view');
+		$this->checkPrivilege('post','view');
 
 		$this->postId = $postId;
 
@@ -56,14 +53,6 @@ final class PostPresenter extends BasePresenter
 	public function renderShow(): void
 	{
 		$this->template->post = $this->post;
-	}
-
-	public function checkPrivilege(string $privilege, string | PostResource $resource = 'post'): void
-	{
-		if (!$this->getUser()->isAllowed($resource, $privilege)) {
-			$this->flashMessage('Unauthorized for this action!', 'error');
-			$this->redirect('Sign:in', $this->storeRequest());
-		}
 	}
 
 	private function checkPostExistence(int $postId): ActiveRow

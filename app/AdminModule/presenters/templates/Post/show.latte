@@ -1,3 +1,32 @@
 {block content}
 	<h1 n:block="title">Administration - Post</h1>
+
+	<p><a n:href="Homepage:default"><- Back</a></p>
+
+<div class="date">
+	{$post->created_at|date:'F j, Y'}
+</div>
+
+<h1>{$post->title}</h1>
+
+<div class="post">
+	{$post->content}
+</div>
+{if $user->isAllowed($post,'edit')}
+	<a n:href="Post:edit $post->id">Edit post</a>
+{/if}
+{if $user->isAllowed($post,'delete')}
+	<a n:href="delete!">Delete post</a>
+{/if}
+<h2>Comments</h2>
+{if $user->isAllowed('comment','add')}
+	{control commentForm}
+{/if}
+
+<div class="comments">
+	{if $user->isAllowed('commentGrid','view')}
+		{control commentPostGrid}
+	{/if}
+</div>
+
 {/block}
