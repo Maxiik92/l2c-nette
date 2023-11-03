@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Nette\Security\IResource;
+use Nette\Database\Table\ActiveRow;
+use Nette\Security\Resource as NSResource;
 
-class Resource implements IResource
+class Resource implements NSResource
 {
 
     public function __construct(
         private string $resourceId,
-        private int $authorId,
+		private ActiveRow $resource,
     ) {
     }
 
@@ -20,16 +21,15 @@ class Resource implements IResource
         return $this->resourceId;
     }
 
-    public function getAuthorId(): int
-    {
-        return $this->authorId;
-    }
-
-    public static function create(string $resourceId, int $authorId): static
+    public static function create(string $resourceId, ActiveRow $resource): static
     {
         return new static(
             $resourceId,
-            $authorId,
+			$resource
         );
     }
+
+	public function __get(string $name){
+		return $this->resource->$name;
+	}
 }

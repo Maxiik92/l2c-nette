@@ -14,11 +14,13 @@ trait PresenterTrait
 	}
 
 	public function createComponentPostGrid(): Control
-	{	
-		if(!$this->postGridControlFactory) {
-			$this->error("Page not found",404);
+	{
+		if (!$this->postGridControlFactory) {
+			$this->error("Page not found", 404);
 		}
 
 		return $this->postGridControlFactory->create();
 	}
+
+
 }

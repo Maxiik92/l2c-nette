@@ -6,6 +6,7 @@ namespace App\Components\Post\Comment\Add;
 
 use App\Model\CommentModel;
 use Nette\Application\UI\Form;
+use Nette\Security\User;
 use Nette\SmartObject;
 use App\Core\FormFactory as FF;
 
@@ -18,6 +19,7 @@ class FormFactory
 	public function __construct(
 		private CommentModel $commentModel,
 		private FF $formFactory,
+		private User $user,
 	) {
 	}
 
@@ -42,6 +44,7 @@ class FormFactory
 	public function onCommentSuccess(Form $form, array $data): void
 	{
 		$data['post_id'] = $this->postId;
+		$data['author_id'] = $this->user->id;
 		$this->commentModel->insert($data)->id;
 	}
 }

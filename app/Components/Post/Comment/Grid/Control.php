@@ -6,6 +6,7 @@ namespace App\Components\Post\Comment\Grid;
 
 use App\Components;
 use App\Model\CommentModel;
+use Closure;
 use Exception;
 use Nette\Application\UI\Control as NetteControl;
 use App\Components\Post\Comment\Grid\Item\ControlFactory;
@@ -52,11 +53,15 @@ class Control extends NetteControl
 
     public function createComponentPostCommentGridItemMultiple()
     {
-        $items = $this->comments;
+        $model = $this->commentModel;
         $factory = $this->controlFactory;
+		$onDeleteCallback = Closure::fromCallable([$this,'onCommentDelete']);
 
-        return new Multiplier(function (string $id) use ($items, $factory) {
-            return $factory->create($items[(int) $id]);
+        return new Multiplier(function (string $id) use ($model, $factory,$onDeleteCallback) {
+            return $factory->create(
+				$model->toEntity($model->getById((int) $id)),
+				$onDeleteCallback
+			);
         });
     }
 
@@ -66,4 +71,14 @@ class Control extends NetteControl
         $_SESSION['commentsPage'] = $this->page;
         $this->redrawControl('comments');
     }
+
+	public function onCommentDelete(bool $isAllowed):void {
+		if($isAllowed){
+			$this->flashMessage('Comment delete successfull','success');
+			$this->redrawControl('comments');
+		}else{
+			$this->flashMessage('You are not allowed to delete this comment','error');
+		}
+		$this->redrawControl('flashes');
+	}
 }

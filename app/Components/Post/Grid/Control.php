@@ -38,7 +38,7 @@ class Control extends NetteControl
         $postModel = $this->postModel;
         $factory = $this->controlFactory;
         return new Multiplier(function (string $id) use ($postModel, $factory) {
-            return $factory->create($postModel->getById((int)$id));
+            return $factory->create($postModel->toEntity($postModel->getById((int)$id)));
         });
     }
 

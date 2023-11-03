@@ -8,8 +8,11 @@
 <div class="post">
 	{$post->content}
 </div>
-{if $user->isAllowed('post','add')}
+{if $user->isAllowed($post,'edit')}
 	<a n:href="Post:edit $post->id">Edit post</a>
+{/if}
+{if $user->isAllowed($post,'delete')}
+	<a n:href="delete!">Delete post</a>
 {/if}
 <h2>Comments</h2>
 {if $user->isAllowed('comment','add')}

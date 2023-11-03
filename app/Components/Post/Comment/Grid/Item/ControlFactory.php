@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Components\Post\Comment\Grid\Item;
 
-use Nette\Database\Table\ActiveRow;
+use App\Model\Entity\CommentResource;
 
 interface ControlFactory
 {
     public function create(
-        ActiveRow $item,
+        CommentResource $item,
+		\Closure $onDelete,
     ): Control;
 }

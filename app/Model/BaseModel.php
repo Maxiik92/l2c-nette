@@ -43,4 +43,9 @@ abstract class BaseModel
 	{
 		return $this->getTable()->insert($data);
 	}
+
+	public function delete(int $id)
+	{
+		return $this->getById($id)->delete();
+	}
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Model\Entity\Resource;
+use App\Model\Entity\PostResource;
 use Nette;
 use App\Core\MailSender;
 use Nette\Database\Explorer;
@@ -43,9 +43,9 @@ final class PostModel extends BaseModel
 		return $retval;
 	}
 
-	public function toEntity(ActiveRow $row): Resource
+	public function toEntity(ActiveRow $row): PostResource
 	{
-		return Resource::create($this->getTableName(), $row->author_id);
+		return PostResource::create($this->getTableName(), $row);
 	}
 
 }

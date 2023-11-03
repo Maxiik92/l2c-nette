@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Model\Entity\PostResource;
 use App\Model\PostModel;
 use App\Presenters\BasePresenter;
 use App\Components;
@@ -18,7 +19,7 @@ final class PostPresenter extends BasePresenter
 	use Components\Post\Comment\Grid\PresenterTrait;
 
 
-	private $post;
+	private PostResource $post;
 	private int $postId = 0;
 	public function __construct(
 		private PostModel $postModel,
@@ -34,30 +35,32 @@ final class PostPresenter extends BasePresenter
 
 	public function actionEdit(int $postId): void
 	{
-		$this->checkPrivilege('edit');
-		$this->entity = $this->checkPostExistence($postId)->toArray();
+		$post = $this->checkPostExistence($postId);
+		$this->checkPrivilege('edit',$this->postModel->toEntity($post));
+		$this->entity = $post->toArray();
 		$this->canCreatePostForm = true;
 	}
 	//POTREBNE ROZDELOVAT ACTION A RENDER LEBO RENDER JE LAZY redirecty v actione
 	public function actionShow(int $postId): void
 	{
+		$this->post = $this->postModel->toEntity($this->checkPostExistence($postId));
 		$this->checkPrivilege('view');
 
-		bdump($this->user->isAllowed('post','edit'));
 		$this->postId = $postId;
-		$this->post = $this->checkPostExistence($postId);
-		$this->canCreateCommentForm = $this->getUser()->isAllowed('comment','add');
-		$this->canCreateCommentGrid = $this->getUser()->isAllowed('commentGrid','view');
+
+
+		$this->canCreateCommentForm = $this->getUser()->isAllowed('comment', 'add');
+		$this->canCreateCommentGrid = $this->getUser()->isAllowed('commentGrid', 'view');
 	}
-	
+
 	public function renderShow(): void
 	{
 		$this->template->post = $this->post;
 	}
 
-	public function checkPrivilege(string $privilege): void
+	public function checkPrivilege(string $privilege, string | PostResource $resource = 'post'): void
 	{
-		if (!$this->getUser()->isAllowed('post', $privilege)) {
+		if (!$this->getUser()->isAllowed($resource, $privilege)) {
 			$this->flashMessage('Unauthorized for this action!', 'error');
 			$this->redirect('Sign:in', $this->storeRequest());
 		}
@@ -70,5 +73,16 @@ final class PostPresenter extends BasePresenter
 			$this->error('Post not found', 404);
 		}
 		return $post;
+	}
+
+	public function handleDelete(): void
+	{
+		$isAllowedToDeletePost = $this->user->isAllowed($this->post, 'delete');
+		if ($isAllowedToDeletePost) {
+			$this->postModel->delete($this->post->id);
+			$this->flashMessage('Post successfully deleted.', 'success');
+			$this->redirect('Homepage:default');
+		}
+		$this->error('Not Allowed to delete this post', 403);
 	}
 }

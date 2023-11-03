@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Model\Entity\Resource;
 use Nette\StaticClass;
 use Nette\Security\Permission;
 
@@ -32,20 +33,28 @@ class AuthorizatorFactory
         $acl->allow('guest', 'commentGrid', 'view');
 
         $acl->allow('user', 'comment', 'add');
-        ;
-        $acl->deny('user', 'public', 'logout');
+        $acl->allow('user', 'comment', 'edit',		[self::class, 'checkResourceManipulateAsAuthor']);
+        $acl->allow('user', 'comment', 'delete',	[self::class, 'checkCommentDelete']);
+        $acl->allow('user', 'public', 'logout');
 
         $acl->allow('moderator', 'post', 'add');
-        $acl->allow('moderator', 'post', 'edit', [self::class, 'checkEditPost']);
-        $acl->allow('moderator', 'post', 'delete');
+        $acl->allow('moderator', 'post', 'edit',	[self::class, 'checkResourceManipulateAsAuthor']);
+        $acl->allow('moderator', 'post', 'delete',	[self::class, 'checkResourceManipulateAsAuthor']);
 
         $acl->allow('admin');
         return $acl;
     }
-    public static function checkEditPost(Permission $acl, string $role, string $resource, string $privilege): bool
+    public static function checkResourceManipulateAsAuthor(Permission $acl, string $role, string $resource, string $privilege): bool
     {
         $role = $acl->getQueriedRole(); // object Registered
         $resource = $acl->getQueriedResource(); // object Article
-        return $role->getUserId() === $resource->getAuthorId();
+        return $role->getUserId() === $resource->author_id;
     }
+
+	public static function checkCommentDelete(Permission $acl, string $role, string $resource, string $privilege): bool{
+		$queriedRole = $acl->getQueriedRole();
+        $queriedResource = $acl->getQueriedResource();
+        return self::checkResourceManipulateAsAuthor($acl, $role, $resource, $privilege) || $queriedRole->getUserId() === $queriedResource->author_id;
+	}
+
 }

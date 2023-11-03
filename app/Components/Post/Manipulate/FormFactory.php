@@ -6,6 +6,7 @@ namespace App\Components\Post\Manipulate;
 
 use App\Model\PostModel;
 use Nette\Application\UI\Form;
+use Nette\Security\User;
 use Nette\SmartObject;
 use App\Core\FormFactory as FF;
 
@@ -20,6 +21,7 @@ class FormFactory
 	public function __construct(
 		private PostModel $postModel,
 		private FF $formFactory,
+		private User $user,
 	) {
 	}
 
@@ -51,6 +53,7 @@ class FormFactory
 			$this->postModel->update($eId, $data);
 		} else {
 			unset($data['id']);
+			$data['author_id']= $this->user->id;
 			$this->entity = $this->postModel->insert($data)->toArray();
 			$eId = $this->entity['id'];
 		}
