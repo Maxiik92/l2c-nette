@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Model\SettingModel;
 use Nette\Application\LinkGenerator;
 use Nette\Application\UI\TemplateFactory;
 use Nette\Mail\Message;
@@ -15,6 +16,7 @@ class MailSender
     public function __construct(
         private TemplateFactory $templateFactory,
         private LinkGenerator $linkGenerator,
+		private SettingModel $settingModel,
         private string $templatePath,
     ) {
     }
@@ -43,8 +45,8 @@ class MailSender
     public function sendPostInserted(array $values)
     {
         $message = $this->createMessage();
-        $message->setFrom('default@l2c.sk');
-        $message->addTo('tomas.max@activenet.sk');
+        $message->setFrom($this->settingModel->getSettingOf('EMAIL_SENDER'));
+        $message->addTo($this->settingModel->getSettingOf('EMAIL_RECEIVER'));
 
         $latte = $this->createLatteTemplate();
         $message->setHtmlBody(

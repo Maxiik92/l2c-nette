@@ -7,6 +7,8 @@ namespace App\Model;
 use Nette;
 
 use Nette\Database\Explorer;
+use Nette\Database\Table\Selection;
+use stdClass;
 
 
 abstract class BaseModel
@@ -23,6 +25,18 @@ abstract class BaseModel
 	public function getTable()
 	{
 		return $this->database->table($this->getTableName());
+	}
+
+	public static function fetchAllToObject (array $table): object | null {
+		$object = null;
+		foreach($table as $key => $row){
+			$class = new stdClass;
+			foreach($row as $index=> $value){
+				$class->$index = $value;
+			}
+			$object[$key] = $class;
+		}
+		return (object) $object;
 	}
 
 	public function getById(int $id)

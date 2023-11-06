@@ -10,3 +10,4 @@ services:
 	- App\Router\RouterFactory::createRouter
 	- App\Core\MailSender(templatePath: %mailTemplatePath%)
 	- App\Model\AuthorizatorFactory::create()
+	- Nette\Caching\Cache
