@@ -11,4 +11,9 @@ services:
 	- App\Core\MailSender(templatePath: %mailTemplatePath%)
 	- App\Model\AuthorizatorFactory::create()
 	- Nette\Caching\Cache
-	- App\Model\CustomTranslator(defaultLang: %defaultLang%)
+	- Latte\Engine
+	customTranslator: App\Model\CustomTranslator(defaultLang: %defaultLang%)
+	translatorExtension : Latte\Essential\TranslatorExtension(translator: @customTranslator)
+	nette.latteFactory:
+		setup:
+			- addExtension(@translatorExtension,[@customTranslator,'translate'])

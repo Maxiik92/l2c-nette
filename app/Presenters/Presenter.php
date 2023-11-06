@@ -23,7 +23,9 @@ abstract class Presenter extends UIPresenter
 	protected function startup(): void
 	{
 		parent::startup();
-		$this->setTemplateTranslator();
+		if ($this->translator instanceof CustomTranslator) {
+			$this->translator->setLang($this->lang);
+		}
 	}
 
 	protected function checkPrivilege(string|Resource $resource, string $privilege): void
@@ -33,15 +35,14 @@ abstract class Presenter extends UIPresenter
 			$this->redirect('Sign:in', $this->storeRequest());
 		}
 	}
-/**
- * setTemplateTranslator
- * sets Default language of translator based on the path variable
- * thanks to translator extension possibility to use {_'hello_world'} instead of {='hello_world'|translate} in latte files
- */
-	public function setTemplateTranslator(){
-		if ($this->translator instanceof CustomTranslator) {
-			$this->translator->setLang($this->lang);
-		}
+	/**
+	 * setTemplateTranslator
+	 * sets Default language of translator based on the path variable
+	 * thanks to translator extension possibility to use {_'hello_world'} instead of {='hello_world'|translate} in latte files
+	 * NAHRADIL SOM TO V services.neon ako addExtension nechavam si to ale tu
+	 */
+	public function setTemplateTranslator()
+	{
 		$extension = new TranslatorExtension([$this->translator, 'translate']);
 		$latte = new Engine;
 		$latte->addExtension($extension);
