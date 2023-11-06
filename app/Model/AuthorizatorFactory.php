@@ -17,7 +17,7 @@ class AuthorizatorFactory
         $acl->addRole('moderator', 'user');
         $acl->addRole('admin');
 
-        $acl->addResource('public'); //view, logout, register
+        $acl->addResource('front'); //view, logout, register
         $acl->addResource('admin'); //view, logout
 
         $acl->addResource('post'); //view,add,edit,delete
@@ -26,7 +26,7 @@ class AuthorizatorFactory
         $acl->addResource('commentGrid'); //view
 
         $acl->deny('guest');
-        $acl->allow('guest', 'public', 'view');
+        $acl->allow('guest', 'front', 'view');
         $acl->allow('guest', 'post', 'view');
         $acl->allow('guest', 'postGrid', 'view');
         $acl->allow('guest', 'comment', 'view');
@@ -35,7 +35,7 @@ class AuthorizatorFactory
         $acl->allow('user', 'comment', 'add');
         $acl->allow('user', 'comment', 'edit',		[self::class, 'checkResourceManipulateAsAuthor']);
         $acl->allow('user', 'comment', 'delete',	[self::class, 'checkCommentDelete']);
-        $acl->allow('user', 'public', 'logout');
+        $acl->allow('user', 'front', 'logout');
 
         $acl->allow('moderator', 'post', 'add');
         $acl->allow('moderator', 'post', 'edit',	[self::class, 'checkResourceManipulateAsAuthor']);

@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Router;
+namespace App\FrontModule\Router;
 
-use App\AdminModule\Router\RouterFactory as AdminRouterFactory;
-use App\FrontModule\Router\RouterFactory as FrontRouterFactory;
 use Nette;
 use Nette\Application\Routers\RouteList;
 
@@ -18,10 +16,11 @@ final class RouterFactory
 	{
 		$router = new RouteList;
 		$router
-			->add(AdminRouterFactory::createRouter())
-			->add(FrontRouterFactory::createRouter())
+			->withModule('Front') //prefix modulu aby sa nemusel pisat do kazdej cesty
+			->addRoute('editPost/<postId>', 'Post:edit')
+			->addRoute('login','Sign:in')
+			->addRoute('createPost', 'Post:add')
 			->addRoute('<presenter>/<action>[/<id>]', 'Homepage:default');
-
 		return $router;
 	}
 }

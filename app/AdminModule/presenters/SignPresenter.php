@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\AdminModule\Presenters;
 
-use App\AdminModule\Presenters\BasePresenter;
-use App\Components;
+use App\AdminModule\Presenters\SecurePresenterTrait;
+use App\Presenters\SignPresenter as APSignPresenter;
 
-class SignPresenter extends BasePresenter
+class SignPresenter extends APSignPresenter
 {
-    use Components\User\Sign\In\PresenterTrait;
+    use SecurePresenterTrait;
 }

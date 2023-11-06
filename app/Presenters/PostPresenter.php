@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\FrontModule\Presenters\BasePresenter;
 use App\Model\Entity\PostResource;
 use App\Model\PostModel;
-use App\Presenters\BasePresenter;
 use App\Components;
+use App\Presenters\Presenter;
 use Nette\Database\Table\ActiveRow;
 
-class PostPresenter extends BasePresenter
+class PostPresenter extends Presenter
 {
 	use Components\Post\Manipulate\PresenterTrait;
 	use Components\Post\Comment\Add\PresenterTrait;

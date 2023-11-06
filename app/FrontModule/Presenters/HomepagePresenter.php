@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Presenters;
+namespace App\FrontModule\Presenters;
 
 use App\Components;
-use App\Model\PostModel;
-use App\Presenters\BasePresenter;
-use Nette\Security\User;
+use App\FrontModule\Presenters\BasePresenter;
 
 final class HomepagePresenter extends BasePresenter
 {

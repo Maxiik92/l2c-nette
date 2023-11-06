@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components;
-use App\Presenters\BasePresenter;
+use Nette\Application\UI\Presenter;
 
 
-final class SignPresenter extends BasePresenter
+abstract class SignPresenter extends Presenter
 {
 	use Components\User\Sign\In\PresenterTrait;
 	public function actionIn(string $storeReqId = '')
