@@ -1,5 +1,6 @@
 parameters:
 	mailTemplatePath: '%appDir%\Presenters\templates\components\mail\'
+	defaultLang: 'sk'
 
 application:
 	errorPresenter: Error

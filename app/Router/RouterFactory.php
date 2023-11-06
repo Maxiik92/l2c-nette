@@ -20,7 +20,7 @@ final class RouterFactory
 		$router
 			->add(AdminRouterFactory::createRouter())
 			->add(FrontRouterFactory::createRouter())
-			->addRoute('<presenter>/<action>[/<id>]', 'Homepage:default');
+			->addRoute('[<lang=en sk|en>/]<presenter>/<action>[/<id>]', 'Homepage:default');
 
 		return $router;
 	}

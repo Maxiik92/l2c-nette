@@ -17,10 +17,10 @@ final class RouterFactory
 		$router = new RouteList;
 		$router
 			->withModule('Front') //prefix modulu aby sa nemusel pisat do kazdej cesty
-			->addRoute('editPost/<postId>', 'Post:edit')
-			->addRoute('login','Sign:in')
-			->addRoute('createPost', 'Post:add')
-			->addRoute('<presenter>/<action>[/<id>]', 'Homepage:default');
+			->addRoute('[<lang=en sk|en>/]editPost/<postId>', 'Post:edit')
+			->addRoute('[<lang=en sk|en>/]login','Sign:in')
+			->addRoute('[<lang=en sk|en>/]createPost', 'Post:add')
+			->addRoute('[<lang=en sk|en>/]<presenter>/<action>[/<id>]', 'Homepage:default');
 		return $router;
 	}
 }

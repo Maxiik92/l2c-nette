@@ -1,0 +1,60 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Model;
+
+use Nette;
+use Nette\Caching\Cache;
+use Nette\Database\Explorer;
+
+class TranslateModel extends BaseModel
+{
+	use Nette\SmartObject;
+
+	public function __construct(
+		private Explorer $database,
+		private Cache $cache
+	) {
+		parent::__construct($database);
+	}
+
+	public function getTableName(): string
+	{
+		return 'translate';
+	}
+
+	public function getTranslateTable(): object
+	{
+		$key = 'translate';
+		$translate = $this->cache->load($key, function (&$dependencies) {
+			$dependencies[Cache::Expire] = '1 day';
+			$data = $this->getTranslateObject();
+
+			if (!$data) {
+				return $data;
+			}
+			return $data;
+		});
+		return (object) $translate;
+	}
+
+	public function getTranslateObject(): ?object
+	{
+		$data = $this->getTable()->fetchAll();
+		if (!$data) {
+			return null;
+		}
+		$object = (object) array();
+		foreach ($data as $row) {
+			$name = $row['name'];
+			$lang = $row['language'];
+			$val = $row['value'];
+			if (!isset($object->$name)) {
+				$object->$name = (object) array();
+			}
+			$object->$name->$lang = $val;
+		}
+		return $object;
+	}
+}

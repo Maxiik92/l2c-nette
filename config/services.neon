@@ -11,3 +11,4 @@ services:
 	- App\Core\MailSender(templatePath: %mailTemplatePath%)
 	- App\Model\AuthorizatorFactory::create()
 	- Nette\Caching\Cache
+	- App\Model\CustomTranslator(defaultLang: %defaultLang%)

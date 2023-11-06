@@ -1,0 +1,7 @@
+CREATE TABLE `translate` (
+  `name` varchar(255) NOT NULL,
+  `language` varchar(5) NOT NULL,
+  `value` longtext NOT NULL
+) ENGINE='InnoDB';
+ALTER TABLE `translate`
+ADD UNIQUE `name_language` (`name`, `language`);
