@@ -27,11 +27,12 @@ abstract class BaseModel
 		return $this->database->table($this->getTableName());
 	}
 
-	public static function fetchAllToObject (array $table): object | null {
+	public static function fetchAllToObject(array $table): object|null
+	{
 		$object = null;
-		foreach($table as $key => $row){
+		foreach ($table as $key => $row) {
 			$class = new stdClass;
-			foreach($row as $index=> $value){
+			foreach ($row as $index => $value) {
 				$class->$index = $value;
 			}
 			$object[$key] = $class;
