@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Model;
 
 use Exception;
-use Nette;
 
 use Nette\Security\Authenticator as NetteAuth;
 use Nette\Security\IdentityHandler;

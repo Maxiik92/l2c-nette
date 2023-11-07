@@ -6,6 +6,7 @@ namespace App\Model;
 
 use Nette;
 use Nette\Caching\Cache;
+use Nette\Caching\Storage;
 use Nette\Database\Explorer;
 use Nette\Database\Table\Selection;
 
@@ -21,11 +22,13 @@ class SettingModel extends BaseModel
 {
 	use Nette\SmartObject;
 
+
+
 	public function __construct(
 		private Explorer $database,
-		private Cache $cache
+		private Storage $storage,
 	) {
-		parent::__construct($database);
+		parent::__construct($database, $storage);
 	}
 
 	public function getTableName(): string
@@ -36,7 +39,7 @@ class SettingModel extends BaseModel
 	public function getSettingsTable(): object
 	{
 		$key = 'settings';
-		$settings = $this->cache->load($key, function (&$dependencies) {
+		$settings = $this->getCache()->load($key, function (&$dependencies) {
 			$dependencies[Cache::Expire] = '1 day';
 			$data = $this->getTable()->fetchAll();
 

@@ -6,6 +6,7 @@ namespace App\Model;
 
 use Nette;
 use Nette\Caching\Cache;
+use Nette\Caching\Storage;
 use Nette\Database\Explorer;
 
 class TranslateModel extends BaseModel
@@ -14,9 +15,9 @@ class TranslateModel extends BaseModel
 
 	public function __construct(
 		private Explorer $database,
-		private Cache $cache
+		private Storage $storage
 	) {
-		parent::__construct($database);
+		parent::__construct($database, $storage);
 	}
 
 	public function getTableName(): string
@@ -27,7 +28,7 @@ class TranslateModel extends BaseModel
 	public function getTranslateTable(): object
 	{
 		$key = 'translate';
-		$translate = $this->cache->load($key, function (&$dependencies) {
+		$translate = $this->getCache()->load($key, function (&$dependencies) {
 			$dependencies[Cache::Expire] = '1 day';
 			$data = $this->getTranslateObject();
 
