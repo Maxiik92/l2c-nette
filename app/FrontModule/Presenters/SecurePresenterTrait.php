@@ -3,12 +3,14 @@
 declare(strict_types=1);
 
 namespace App\FrontModule\Presenters;
-
-use App\Model\CustomTranslator;
-use App\Model\TranslateModel;
+use App\Model\API\Joke;
+use Nette\DI\Attributes\Inject;
 
 trait SecurePresenterTrait
 {
+
+	#[Inject] public Joke  $joke;
+
 	protected function startup(): void
 	{
 		if (!$this->isLinkCurrent('Sign:in') && !$this->user->isAllowed('front', 'view')) {
@@ -16,5 +18,9 @@ trait SecurePresenterTrait
 			$this->redirect('Sign:in');
 		}
 		parent::startup();
+	}
+
+	protected function beforeRender():void {
+		$this->template->joke = $this->joke->getJoke($this->lang);
 	}
 }
