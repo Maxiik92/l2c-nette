@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<h2>{_'hello'} {$user->identity->name}</h2>
+	<h2>{_'hello'} {$user->identity->name ?? 'guest'|translate}</h2>
 
 	<div>
 		<h3>Free Joke for You </h3>
@@ -39,6 +39,7 @@
 	</script>
 		<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
 		<script src="{$basePath}/js/plugins/nette.ajax.js-master/nette.ajax.js"></script>
+		<script src="{$basePath}/js/plugins/nette.ajax.js-master/extensions/fidRemove.ajax.js"></script>
 		<script src="{$basePath}/js/main.js"></script>
 	{/block}
 </body>

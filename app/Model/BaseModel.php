@@ -10,6 +10,7 @@ use Nette\Caching\Cache;
 use Nette\Caching\Storage;
 use Nette\Database\Explorer;
 use Nette\Database\Table\Selection;
+use Nette\DI\Attributes\Inject;
 use stdClass;
 
 
@@ -18,10 +19,10 @@ abstract class BaseModel
 	use Nette\SmartObject;
 
 	private ?Cache $cache = null;
+	#[Inject] private Storage $storage;
 
 	public function __construct(
 		private Explorer $database,
-		private Storage $storage,
 	) {
 	}
 
@@ -69,10 +70,11 @@ abstract class BaseModel
 		return $this->getById($id)->delete();
 	}
 
-	protected function getCache(): Cache{
-		if($this->cache == null){
+	protected function getCache(): Cache
+	{
+		if ($this->cache == null) {
 			return new Cache($this->storage);
-		}else {
+		} else {
 			return $this->cache;
 		}
 	}

@@ -21,6 +21,7 @@ trait SecurePresenterTrait
 	}
 
 	protected function beforeRender():void {
-		$this->template->joke = $this->joke->getJoke($this->lang);
+		$lang = isset($this->lang) ? $this->lang :'en';
+		$this->template->joke = $this->joke->getJoke($lang);
 	}
 }

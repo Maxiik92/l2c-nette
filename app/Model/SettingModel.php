@@ -26,9 +26,8 @@ class SettingModel extends BaseModel
 
 	public function __construct(
 		private Explorer $database,
-		private Storage $storage,
 	) {
-		parent::__construct($database, $storage);
+		parent::__construct($database);
 	}
 
 	public function getTableName(): string
