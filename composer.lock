@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc339d6c176d4512c9202de67d941c53",
+    "content-hash": "7c3d9e6f7fb577606b2b1e6e76beaa16",
     "packages": [
         {
             "name": "contributte/console",
@@ -154,6 +154,79 @@
                 }
             ],
             "time": "2023-02-21T08:24:32+00:00"
+        },
+        {
+            "name": "kdyby/forms-replicator",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Kdyby/FormsReplicator.git",
+                "reference": "cd6c9ccfaade43b85d181a8041ec5a7f842969b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Kdyby/FormsReplicator/zipball/cd6c9ccfaade43b85d181a8041ec5a7f842969b1",
+                "reference": "cd6c9ccfaade43b85d181a8041ec5a7f842969b1",
+                "shasum": ""
+            },
+            "require": {
+                "nette/forms": "^3.0",
+                "nette/utils": "^3.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "nette/application": "^3.0@rc",
+                "nette/bootstrap": "^3.0@rc",
+                "nette/di": "^3.0@rc",
+                "nette/tester": "^2.2",
+                "tracy/tracy": "^2.6"
+            },
+            "suggest": {
+                "nette/di": "to use ReplicatorExtension[CompilerExtension]"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kdyby\\Replicator\\": "src/Replicator/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Filip Procházka",
+                    "email": "filip@prochazka.su",
+                    "homepage": "http://filip-prochazka.com"
+                },
+                {
+                    "name": "David Šolc",
+                    "email": "solcik@gmail.com",
+                    "homepage": "https://solc.dev"
+                }
+            ],
+            "description": "Nette forms container replicator aka addDynamic",
+            "homepage": "http://kdyby.org",
+            "keywords": [
+                "Forms",
+                "addDynamic",
+                "kdyby",
+                "nette",
+                "replicator"
+            ],
+            "support": {
+                "issues": "https://github.com/Kdyby/FormsReplicator/issues",
+                "source": "https://github.com/Kdyby/FormsReplicator/tree/master"
+            },
+            "time": "2019-03-18T16:16:28+00:00"
         },
         {
             "name": "latte/latte",
@@ -2407,8 +2480,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">= 7.4"
+        "php": ">= 8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.6.0"
 }

@@ -21,7 +21,8 @@
 		"latte/latte": "^2.11 || ^3.0",
 		"tracy/tracy": "^2.8",
 		"nextras/migrations": "^3.2",
-		"contributte/console": "^0.9.3"
+		"contributte/console": "^0.9.3",
+		"kdyby/forms-replicator": "^2.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.3",
